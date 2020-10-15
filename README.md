@@ -1,3 +1,4 @@
+# GANs-for-1D-Signal
 ## Introduction
 This repo contains my pytorch implementations of several types of GANs, including DCGAN, WGAN and WGAN-GP, for 1-D signal. It was used to generate fake data of Raman spectra, which are typically used in Chemometrics as the fingerprints of materials.
 
@@ -18,7 +19,7 @@ If you use these codes, please kindly cite the  this repository.
 
 ## Usage
 
-
+ 
 
 ## Reference
 
