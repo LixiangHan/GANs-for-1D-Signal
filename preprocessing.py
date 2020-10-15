@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class Dataset():
-    def __init__(self, root, device):
-        self.device = device
+    def __init__(self, root):
         self.root = root
         self.dataset = self.build_dataset()
         self.length = self.dataset.shape[1]
@@ -33,7 +32,7 @@ class Dataset():
                 dataset.append(sample)
                 # lable.append(folder)
         dataset = np.vstack(dataset).T
-        dataset = torch.tensor(dataset, device=self.device)
+        dataset = torch.from_numpy(dataset).float()
 
         return dataset
 
@@ -45,7 +44,6 @@ class Dataset():
 
 
 if __name__ == '__main__':
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    dataset = Dataset('./data', device)
+    dataset = Dataset('./data')
     plt.plot(dataset.dataset[:, 0].T)
     plt.show()
