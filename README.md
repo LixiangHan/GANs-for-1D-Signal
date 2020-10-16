@@ -53,5 +53,5 @@ Run python file end with "train".
 
 [2] Yangyangji. GAN-Tutorial [DB/OL]. https://github.com/Yangyangii/GAN-Tutorial, 2020-10-15.
 
-[3]  mcclow12. wgan-gp-pytorch [DB/OL]. https://github.com/mcclow12/wgan-gp-pytorch
+[3]  mcclow12. wgan-gp-pytorch [DB/OL]. https://github.com/mcclow12/wgan-gp-pytorch, 2020-10-15.
 
