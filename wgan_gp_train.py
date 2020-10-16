@@ -9,11 +9,11 @@ from preprocessing import Dataset
 import torch.autograd as autograd
 
 
-beta1 = 0.5
-p_coeff = 10
+beta1 = 0
+beta2 = 0.9
+p_coeff = 1
 n_critic = 5
-clip_value = 0.01
-lr = 1e-5
+lr = 1e-4
 epoch_num = 64
 batch_size = 8
 nz = 100  # length of noise
@@ -28,6 +28,7 @@ def main():
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=batch_size, shuffle=True
     )
+
     # init netD and netG
     netD = Discriminator().to(device)
     netD.apply(weights_init)
@@ -39,8 +40,10 @@ def main():
     fixed_noise = torch.randn(16, nz, 1, device=device)
 
     # optimizers
-    optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
-    optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
+    # optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, beta2))
+    # optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, beta2))
+    optimizerD = optim.RMSprop(netD.parameters(), lr=lr)
+    optimizerG = optim.RMSprop(netG.parameters(), lr=lr)
 
     for epoch in range(epoch_num):
         for step, (data, _) in enumerate(trainloader):
@@ -53,22 +56,18 @@ def main():
             fake = netG(noise)
 
             # gradient penalty
-            eps = torch.rand(b_size, 1, 1).to(device)
-            data_penalty = eps * data + (1 - eps) * fake
+            eps = torch.Tensor(b_size, 1, 1).uniform_(0, 1)
+            x_p = eps * data + (1 - eps) * fake
+            grad = autograd.grad(netD(x_p).mean(), x_p, create_graph=True, retain_graph=True)[0].view(b_size, -1)
+            grad_norm = torch.norm(grad, 2, 1)
+            grad_penalty = p_coeff * torch.pow(grad_norm - 1, 2)
 
-            p_output = netD(data_penalty)
-
-            label = torch.full((b_size,), 1.,
-                               dtype=torch.float, device=device)#.requires_grad_()
-            data_grad = autograd.grad(outputs=p_output.view(-1), inputs=data_penalty, grad_outputs=label,
-                                      create_graph=True, retain_graph=True, only_inputs=True)
-            grad_penalty = p_coeff * \
-                torch.mean(torch.pow(torch.norm(data_grad[0], 2, 1) - 1, 2))
-
-            loss_D = -torch.mean(netD(real_cpu)) + \
-                torch.mean(netD(fake)) + grad_penalty
+            loss_D = torch.mean(netD(fake) - netD(real_cpu))
             loss_D.backward()
             optimizerD.step()
+
+            for p in netD.parameters():
+                p.data.clamp_(-0.01, 0.01)
 
             if step % n_critic == 0:
                 # training netG
@@ -83,8 +82,9 @@ def main():
                 loss_G.backward()
                 optimizerG.step()
 
-            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
-                  % (epoch, epoch_num, step, len(trainloader), loss_D.item(), loss_G.item()))
+            if step % 5 == 0:
+                print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
+                      % (epoch, epoch_num, step, len(trainloader), loss_D.item(), loss_G.item()))
 
         # save training process
         with torch.no_grad():
@@ -104,3 +104,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

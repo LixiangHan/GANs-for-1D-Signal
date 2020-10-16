@@ -11,8 +11,8 @@ from preprocessing import Dataset
 
 n_critic = 5
 clip_value = 0.01
-lr = 2e-4
-epoch_num = 128
+lr = 1e-4
+epoch_num = 64
 batch_size = 8
 nz = 100  # length of noise
 ngpu = 0
@@ -70,9 +70,10 @@ def main():
                 netG.zero_grad()
                 loss_G.backward()
                 optimizerG.step()
-
-            print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
-                  % (epoch, epoch_num, step, len(trainloader), loss_D.item(), loss_G.item()))
+            
+            if step % 5 == 0:
+                print('[%d/%d][%d/%d]\tLoss_D: %.4f\tLoss_G: %.4f'
+                    % (epoch, epoch_num, step, len(trainloader), loss_D.item(), loss_G.item()))
 
         # save training process
         with torch.no_grad():

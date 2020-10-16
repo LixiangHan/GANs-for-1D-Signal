@@ -15,7 +15,19 @@ If you use these codes, please kindly cite the  this repository.
 
 ## Experiment Result
 
+### DCGAN
 
+<div align=center><img width="320" height="320" src="https://github.com/LixiangHan/GANs-for-1D-Signal/blob/main/img/dcgan.gif"></div>
+
+### WGAN
+
+<div align=center><img width="320" height="320" src="https://github.com/LixiangHan/GANs-for-1D-Signal/blob/main/img/wgan.gif"></div>
+
+### WGAN-GP
+
+**NOTE:** RMSprop was used in the implementation of wgan-gp, rather than Adam, which was used in its original version, as it seems like Adam didn't work well in my applications.
+
+<div align=center><img width="320" height="320" src="https://github.com/LixiangHan/GANs-for-1D-Signal/blob/main/img/wgan_gp.gif"></div>
 
 ## Usage
 
@@ -26,4 +38,6 @@ If you use these codes, please kindly cite the  this repository.
 [1] Nathan Inkawhich. DCGAN Tutorial [EB/OL]. https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html, 2020-10-14.
 
 [2] Yangyangji. GAN-Tutorial [DB/OL]. https://github.com/Yangyangii/GAN-Tutorial, 2020-10-15.
+
+[3]  mcclow12. wgan-gp-pytorch [DB/OL]. https://github.com/mcclow12/wgan-gp-pytorch
 
