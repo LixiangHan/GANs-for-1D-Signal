@@ -1,3 +1,4 @@
 /data
 /utilities.py
 /__pycache__
+*[1234567890].png
