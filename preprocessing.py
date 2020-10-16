@@ -23,14 +23,10 @@ class Dataset():
 
     def build_dataset(self):
         '''get dataset of signal'''
-        # label = []
         dataset = []
-        for folder in os.listdir(self.root):
-            for _file in os.listdir(os.path.join(self.root, folder)):
-                sample = np.loadtxt(os.path.join(
-                    os.path.join(self.root, folder), _file)).T
-                dataset.append(sample)
-                # lable.append(folder)
+        for _file in os.listdir(self.root):
+            sample = np.loadtxt(os.path.join(self.root, _file)).T
+            dataset.append(sample)
         dataset = np.vstack(dataset).T
         dataset = torch.from_numpy(dataset).float()
 

@@ -20,7 +20,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def main():
     # load training data
-    trainset = Dataset('./data')
+    trainset = Dataset('./data/brilliant_blue')
 
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=batch_size, shuffle=True
@@ -96,8 +96,8 @@ def main():
             plt.close()
     
     # save models
-    torch.save(netG, './nets/dggan_netG.pkl')
-    torch.save(netD, './nets/dggan_netD.pkl')
+    torch.save(netG, './nets/dcgan_netG.pkl')
+    torch.save(netD, './nets/dcgan_netD.pkl')
 
 
 if __name__ == '__main__':

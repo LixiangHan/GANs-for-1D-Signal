@@ -1,4 +1,6 @@
 /data
-/utilities.py
+/fakedata
+/utils.py
 /__pycache__
 *[1234567890].png
+/models

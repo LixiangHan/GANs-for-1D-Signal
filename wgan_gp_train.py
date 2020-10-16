@@ -11,7 +11,7 @@ import torch.autograd as autograd
 
 beta1 = 0
 beta2 = 0.9
-p_coeff = 1
+p_coeff = 10
 n_critic = 5
 lr = 1e-4
 epoch_num = 64
@@ -23,7 +23,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def main():
     # load training data
-    trainset = Dataset('./data')
+    trainset = Dataset('./data/brilliant_blue')
 
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=batch_size, shuffle=True

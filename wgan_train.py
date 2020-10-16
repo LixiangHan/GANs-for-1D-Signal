@@ -21,7 +21,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def main():
     # load training data
-    trainset = Dataset('./data')
+    trainset = Dataset('./data/brilliant_blue')
 
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=batch_size, shuffle=True
