@@ -5,7 +5,7 @@ import torch.optim as optim
 import torchvision.transforms as transforms
 import numpy as np
 import matplotlib.pyplot as plt
-from dcgan import Discriminator, Generator, weights_init
+from wgan import Discriminator, Generator, weights_init
 from preprocessing import Dataset
 
 
